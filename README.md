@@ -13,5 +13,5 @@
 - rabbitmq
 - swagger
 - grpc web
-- веррстка
+- верстка
 - auth0
