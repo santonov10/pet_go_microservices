@@ -1,0 +1,7 @@
+app_service_port: ":50051"
+
+password_hash_salt: "123123"
+
+signing_key: "signing_key"
+
+token_ttl_seconds: "86400"
