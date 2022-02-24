@@ -1,0 +1,26 @@
+.App {
+  font-size: 16px;
+}
+
+.App button {
+  height: 30px;
+  width: 95px;
+  color: white;
+  background: #03a9f4;
+  border-radius: 5px;
+  border: none;
+}
+
+.App input {
+  border: 1px solid lightgray;
+  height: 30px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  padding: 0 10px;
+}
+
+.App label {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 10px;
+}

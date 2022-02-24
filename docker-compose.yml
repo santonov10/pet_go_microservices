@@ -1,0 +1,77 @@
+version: '3'
+services:
+
+  microservices-postgres:
+    image: "postgres:14.1"
+    container_name: microservices-postgres
+    volumes:
+      - microservices-data:/var/lib/postgresql/data
+    ports:
+      - "5432:${POSTGRES_DB_SERVER_PORT}"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER}
+
+  microservices-api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
+    container_name: microservices-api-gateway
+    ports:
+      - "8080:8080"
+    links:
+      - microservices-user
+    depends_on:
+      - microservices-user
+
+  microservices-user:
+    build:
+      context: ./user
+      dockerfile: ./Dockerfile
+    container_name: microservices-user
+    environment:
+      - POSTGRES_DB_SERVER=microservices-postgres
+      - POSTGRES_DB_SERVER_PORT=${POSTGRES_DB_SERVER_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER}
+    ports:
+      - "50051:50051"
+    links:
+      - microservices-postgres
+    depends_on:
+      - microservices-postgres
+
+  microservices-tasks:
+    build:
+      context: ./tasks
+      dockerfile: ./Dockerfile
+    container_name: microservices-tasks
+    environment:
+      - POSTGRES_DB_SERVER=microservices-postgres
+      - POSTGRES_DB_SERVER_PORT=${POSTGRES_DB_SERVER_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER}
+    ports:
+      - "50052:50052"
+    links:
+      - microservices-postgres
+    depends_on:
+      - microservices-user
+
+  microservices-web-client:
+    build:
+      context: ./web-client
+      dockerfile: ./Dockerfile
+    container_name: microservices-web-client
+    ports:
+      - "80:80"
+    links:
+      - microservices-api-gateway
+    depends_on:
+      - microservices-api-gateway
+
+volumes:
+  microservices-data:

@@ -1,0 +1,4 @@
+app_port: ":80"
+
+user_service_port: ":50051"
+task_service_port: ":50052"

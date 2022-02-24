@@ -1,0 +1,10 @@
+.AuthPage__form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.AuthPage__switcher {
+    margin-top: 10px;
+    background: gray !important;
+}

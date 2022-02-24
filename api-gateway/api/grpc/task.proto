@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message GetTasksRequest{
+  string user_id = 1;
+}
+
+message Task {
+  string id = 1;
+  google.protobuf.Timestamp time_created = 2;
+  google.protobuf.Timestamp time_updated = 3;
+  string header = 4;
+  string description = 5;
+  string user_id = 6;
+}
+
+message TasksResponse {
+  repeated Task tasks = 1;
+}
+
+message CreateTaskRequest {
+  string header = 1;
+  string description = 2;
+  string user_id = 3;
+}
+
+message CreateTaskResponse {
+  string id = 1;
+}
+
+message UpdateTaskRequest {
+  string header = 1;
+  string description = 2;
+  string task_id = 3;
+}
+
+message UpdateTaskResponse {
+  bool success = 1;
+}
+
+service TaskService{
+  rpc CreateTask(CreateTaskRequest) returns  (CreateTaskResponse);
+  rpc UpdateTask(UpdateTaskRequest) returns  (UpdateTaskResponse);
+  rpc GetTasks(GetTasksRequest) returns  (TasksResponse);
+}
+
+
+
+
